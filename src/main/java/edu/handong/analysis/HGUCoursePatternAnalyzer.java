@@ -103,33 +103,19 @@ public class HGUCoursePatternAnalyzer {
 	private Course[] initiateCourseArrayFromLines(String[] lines) {
 		courses = new Course[numOfCourses];
 		String[] tempString;
+		Course course;
 		int a = lines.length;
+		boolean flag;
 		int count = 0;
-		int flag = 0;
 		for(int i=0; i<a; i++) {
 			tempString = lines[i].trim().split(", ");
-			if(i == 0) {
-				courses[i] = new Course(tempString[2]);
+			course = new Course(tempString[2]);
+			flag = courseExist(courses, course);
+			if(flag == false) {
+				courses[count] = new Course(tempString[2]);
 				count++;
 			}
-			else {
-				for(int j=0; j<count; j++) {
-					if(tempString[2].equals(courses[j].getCourseName())) {
-						flag = 1;
-						break;
-					}
-				}
-				
-				if(flag == 1) {
-					flag = 0;
-				}
-				else {
-					courses[count] = new Course(tempString[2]);
-					count++;
-				}
-			}
-		}		
-		
+		}
 		
 		return courses;
 	}
@@ -141,10 +127,18 @@ public class HGUCoursePatternAnalyzer {
 	 * @return boolean
 	 */
 	private boolean courseExist(Course[] courses, Course course) {
-		
-		// TODO: implement this method
-
-		return false;
+		int l = courses.length;
+		int flag = 0;
+		for(int i=0; i<l; i++) {
+			if(courses[i] == null) {
+				break;
+			}
+			if(courses[i].getCourseName().equals(course.getCourseName())) {
+				flag = 1;
+				break;
+			}
+		}
+		if(flag == 1) return true;
+		else return false;	
 	}
-
 }
