@@ -56,30 +56,17 @@ public class HGUCoursePatternAnalyzer {
 	private Student[] initiateStudentArrayFromLines(String[] lines) {
 		students = new Student[numOfStudents];
 		String[] tempString;
+		Student student;
 		int a = lines.length;
+		boolean flag;
 		int count = 0;
-		int flag = 0;
 		for(int i=0; i<a; i++) {
 			tempString = lines[i].trim().split(", ");
-			if(i == 0) {
-				students[i] = new Student(tempString[1]);
+			student = new Student(tempString[1]);
+			flag = studentExist(students, student);
+			if(flag == false) {
+				students[count] = new Student(tempString[1]);
 				count++;
-			}
-			else {
-				for(int j=0; j<count; j++) {
-					if(tempString[1].equals(students[j].getName())) {
-						flag = 1;
-						break;
-					}
-				}
-				
-				if(flag == 1) {
-					flag = 0;
-				}
-				else {
-					students[count] = new Student(tempString[1]);
-					count++;
-				}
 			}
 		}
 		
@@ -93,10 +80,19 @@ public class HGUCoursePatternAnalyzer {
 	 * @return boolean
 	 */
 	private boolean studentExist(Student[] students, Student student) {
-		
-		// TODO: implement this method
-
-		return false;
+		int l = students.length;
+		int flag = 0;
+		for(int i=0; i<l; i++) {
+			if(students[i] == null) {
+				break;
+			}
+			if(students[i].getName().equals(student.getName())) {
+				flag = 1;
+				break;
+			}
+		}
+		if(flag == 1) return true;
+		else return false;
 	}
 	
 	/**
